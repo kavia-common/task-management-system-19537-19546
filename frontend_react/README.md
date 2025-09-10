@@ -1,82 +1,64 @@
-# Lightweight React Template for KAVIA
+# To-Do Task Management Frontend (React)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+This is a lightweight React frontend for creating, managing, and tracking to-do tasks. It integrates with a backend via RESTful APIs.
 
 ## Features
-
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Create, list, edit, complete/restore, and delete tasks
+- Grouped display: Open and Completed sections
+- Search and status filter
+- Due date with overdue highlighting
+- Responsive, minimal CSS (no heavy UI frameworks)
+- Environment-configurable API base URL
 
 ## Getting Started
 
-In the project directory, you can run:
+Install dependencies:
+- npm install
 
-### `npm start`
+Run locally:
+- npm start
+- Open http://localhost:3000
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Build for production:
+- npm run build
 
-### `npm test`
+## Environment Configuration
+Copy `.env.example` to `.env` and set:
+- REACT_APP_API_BASE_URL=http://localhost:8000
 
-Launches the test runner in interactive watch mode.
+Alternatively, an ops system can inject window.__APP_CONFIG__ = { API_BASE_URL: "..." } in index.html.
 
-### `npm run build`
+## API Contract (expected)
+- GET /api/tasks -> 200 OK, JSON: Task[]
+- POST /api/tasks -> 201/200, JSON: Task
+- PUT /api/tasks/:id -> 200 OK, JSON: Task
+- DELETE /api/tasks/:id -> 204/200
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+Task shape:
+```
+{
+  id: string|number,
+  title: string,
+  description?: string,
+  dueDate?: string (ISO),
+  completed: boolean
 }
 ```
 
-### Components
+## Source Structure
+- src/services/api.js: REST client
+- src/components/Layout.js, layout.css: UI primitives
+- src/components/TaskForm.js: form for create/edit
+- src/components/TaskList.js: list and item cards
+- src/pages/TaskListPage.js: main list with search/filter
+- src/pages/NewTaskPage.js: create page
+- src/pages/EditTaskPage.js: edit page
+- src/App.js: routes and theme toggle
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+## Testing
+Default CRA tests remain; extend with RTL tests as needed.
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+## Notes
+- Ensure CORS is enabled on the backend for your frontend origin.
+- Do not include trailing slash in REACT_APP_API_BASE_URL.
 
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
